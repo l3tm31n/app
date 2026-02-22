@@ -1,0 +1,143 @@
+{
+  "identity": {
+    "persona": "E1: The Anti-AI Designer",
+    "tone": "Professional, Stealthy, Technical, Precise, 'Modern Matrix'",
+    "mission": "Create a fully formed local pentest LLM dashboard with a high-end hacker aesthetic that balances visual impact with functional clarity."
+  },
+  "typography": {
+    "headings": {
+      "family": "JetBrains Mono, monospace",
+      "weight": "700",
+      "style": "uppercase",
+      "letterSpacing": "tracking-widest"
+    },
+    "body": {
+      "family": "Inter, sans-serif",
+      "weight": "400"
+    },
+    "code": {
+      "family": "Fira Code, monospace",
+      "weight": "400"
+    }
+  },
+  "colors": {
+    "palette_name": "The Operator",
+    "background": {
+      "primary": "#050505",
+      "secondary": "#0A0A0A",
+      "tertiary": "#111111"
+    },
+    "accent": {
+      "primary": "#00FF41",
+      "secondary": "#008F11",
+      "tertiary": "#0D0208"
+    },
+    "functional": {
+      "success": "#00FF41",
+      "warning": "#FFB000",
+      "error": "#FF3B30",
+      "info": "#00F0FF",
+      "text_muted": "#666666"
+    },
+    "border": {
+      "default": "rgba(0, 255, 65, 0.2)",
+      "active": "rgba(0, 255, 65, 0.6)"
+    }
+  },
+  "visual_enhancers": {
+    "borders": "1px solid rgba(0, 255, 65, 0.2)",
+    "shadows": "0 0 10px rgba(0, 255, 65, 0.1), inset 0 0 20px rgba(0, 255, 65, 0.05)",
+    "glassmorphism": "backdrop-filter: blur(8px); background: rgba(5, 5, 5, 0.8); border: 1px solid rgba(255, 255, 255, 0.05);",
+    "scanlines": "background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%; pointer-events: none;",
+    "glow": "text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);"
+  },
+  "grids": {
+    "layout_strategy": "The Bento Grid Protocol",
+    "spacing": "gap-4 p-4 md:p-6",
+    "modes": {
+      "dashboard": "grid grid-cols-1 md:grid-cols-12 gap-6",
+      "tools_panel": "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
+    }
+  },
+  "components": {
+    "Button": {
+      "style": "sharp-edges",
+      "variant": "outline",
+      "hover": "bg-green-500/10 text-green-400 border-green-500",
+      "animation": "active:scale-95 transition-all duration-100"
+    },
+    "Card": {
+      "style": "glass-panel",
+      "border": "border border-white/5",
+      "background": "bg-black/40"
+    },
+    "Input": {
+      "style": "terminal-input",
+      "border": "border-b border-green-500/50 bg-transparent focus:border-green-500 focus:outline-none rounded-none"
+    },
+    "Terminal": {
+      "font": "font-mono",
+      "text": "text-green-500",
+      "background": "bg-black",
+      "cursor": "animate-pulse"
+    }
+  },
+  "layout_structure": {
+    "sidebar": "w-64 border-r border-white/10 bg-black/90 hidden md:flex flex-col",
+    "main_content": "flex-1 overflow-auto bg-[url('https://images.unsplash.com/photo-1761912149936-8f662fc2a13e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwzfHxjeWJlcnNlY3VyaXR5JTIwYWJzdHJhY3QlMjBkaWdpdGFsJTIwbmV0d29yayUyMGRhcmslMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTc3MTczODE3N3ww&ixlib=rb-4.1.0&q=85')] bg-cover bg-center bg-no-repeat bg-blend-overlay bg-black/90",
+    "header": "h-14 border-b border-white/10 bg-black/80 backdrop-blur flex items-center px-6 justify-between"
+  },
+  "image_urls": {
+    "backgrounds": [
+      {
+        "url": "https://images.unsplash.com/photo-1761912149936-8f662fc2a13e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwzfHxjeWJlcnNlY3VyaXR5JTIwYWJzdHJhY3QlMjBkaWdpdGFsJTIwbmV0d29yayUyMGRhcmslMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTc3MTczODE3N3ww&ixlib=rb-4.1.0&q=85",
+        "description": "Abstract network background for main dashboard area",
+        "category": "background"
+      },
+       {
+        "url": "https://images.unsplash.com/photo-1767477665589-3e729f5909f8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwyfHxjeWJlcnNlY3VyaXR5JTIwYWJzdHJhY3QlMjBkaWdpdGFsJTIwbmV0d29yayUyMGRhcmslMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTc3MTczODE3N3ww&ixlib=rb-4.1.0&q=85",
+        "description": "Abstract black and teal digital art pattern",
+        "category": "background"
+      }
+    ],
+    "placeholders": [
+      {
+        "url": "https://images.unsplash.com/photo-1758657286956-f944e1d2e75a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHw0fHxjeWJlcnNlY3VyaXR5JTIwYWJzdHJhY3QlMjBkaWdpdGFsJTIwbmV0d29yayUyMGRhcmslMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTc3MTczODE3N3ww&ixlib=rb-4.1.0&q=85",
+        "description": "Cybersecurity abstract art for empty states",
+        "category": "placeholder"
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Install 'lucide-react' for icons.",
+    "Install 'framer-motion' for animations.",
+    "Use 'JetBrains Mono' or 'Fira Code' for all terminal/code related text. Import from Google Fonts.",
+    "Implement a 'glitch' effect on hover for primary actions.",
+    "Ensure the layout is responsive, collapsing the sidebar on mobile.",
+    "Use the provided background image with an overlay to ensure text readability.",
+    "The 'Chat Interface' should feel like a secure comms channel - messages appearing with a slight typing delay.",
+    "The 'Tools Panel' should display tools (nmap, nikto, etc.) as cards with status indicators (green for ready, yellow for running, red for error).",
+    "Use Shadcn components but heavily customized with the 'The Operator' palette (remove rounded corners, use borders).",
+    "CRITICAL: Dark Mode only. Force 'dark' class on the html element or body.",
+    "File Explorer should look like a tree structure in a terminal."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy",
+    "Use glass-morphism effects with backdrop filters (12-24px blur)",
+    "You MUST NOT apply universal transition. Eg: transition: all. This results in breaking transforms. Always add transitions for specific interactive elements like button, input excluding transforms",
+    "You MUST NOT center align the app container, ie do not add .App { text-align: center; } in the css file. This disrupts the human natural reading flow of text",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style",
+    "NEVER: use AI assistant Emoji characters for icons.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
+    "Main agent relies on these image URLs. Missing categories = main agent will use placeholder text which is FORBIDDEN",
+    "Prioritize using pre-existing components from src/components/ui when applicable",
+    "Create new components that match the style and conventions of existing components when needed",
+    "Components MUST use named exports",
+    "Pages MUST use default exports",
+    "Use sonner for toasts"
+  ]
+}
