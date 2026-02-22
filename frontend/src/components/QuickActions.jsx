@@ -8,7 +8,11 @@ import {
   Network,
   Key,
   Search,
-  Clock
+  Clock,
+  Shield,
+  Database,
+  Server,
+  Upload
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,36 +29,61 @@ const WORKFLOWS = {
     name: "Quick Recon",
     icon: Search,
     color: "#3498DB",
-    description: "Fast initial assessment",
-    tools: ["whois", "nmap", "theHarvester"]
+    description: "Fast assessment"
   },
   web_app_audit: {
-    name: "Web App Audit",
+    name: "Web Audit",
     icon: Globe,
     color: "#00F0FF",
-    description: "Web security scan",
-    tools: ["nmap", "nikto", "dirb", "sqlmap"]
+    description: "Web security"
   },
   network_sweep: {
-    name: "Network Sweep",
+    name: "Net Sweep",
     icon: Network,
     color: "#00FF41",
-    description: "Full network enum",
-    tools: ["nmap", "masscan", "arp-scan"]
+    description: "Network enum"
   },
   credential_audit: {
-    name: "Credential Audit",
+    name: "Cred Audit",
     icon: Key,
     color: "#FFB000",
-    description: "Password testing",
-    tools: ["hydra", "john", "hashcat"]
+    description: "Password test"
+  },
+  ad_attack: {
+    name: "AD Attack",
+    icon: Server,
+    color: "#9B59B6",
+    description: "Active Directory"
+  },
+  exfil_setup: {
+    name: "Exfil Setup",
+    icon: Upload,
+    color: "#E91E63",
+    description: "Data exfil"
+  },
+  privesc_linux: {
+    name: "Linux PE",
+    icon: Shield,
+    color: "#FF5722",
+    description: "Linux privesc"
+  },
+  privesc_windows: {
+    name: "Win PE",
+    icon: Shield,
+    color: "#2196F3",
+    description: "Windows privesc"
+  },
+  lateral_movement: {
+    name: "Lateral",
+    icon: Database,
+    color: "#795548",
+    description: "Move laterally"
   },
   full_pentest: {
     name: "Full Pentest",
     icon: Zap,
     color: "#FF3B30",
-    description: "Complete assessment",
-    tools: ["All tools chained"]
+    description: "Complete test"
   }
 };
 
