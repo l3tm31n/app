@@ -203,6 +203,45 @@ function Dashboard() {
     }
   };
 
+  // Execute workflow
+  const executeWorkflow = async (workflowId, target) => {
+    // Auto-create session if needed
+    let sessionId = currentSession?.id;
+    if (!sessionId) {
+      try {
+        const response = await axios.post(`${API}/sessions?name=${encodeURIComponent(`Scan: ${target}`)}`);
+        const newSession = response.data;
+        setSessions(prev => [newSession, ...prev]);
+        setCurrentSession(newSession);
+        sessionId = newSession.id;
+      } catch (e) {
+        toast.error("Failed to create session");
+        return;
+      }
+    }
+
+    setTerminalOutput(prev => prev + `\n${"=".repeat(60)}\n[*] STARTING WORKFLOW: ${workflowId.toUpperCase()}\n[*] TARGET: ${target}\n${"=".repeat(60)}\n`);
+    
+    try {
+      const response = await axios.post(`${API}/workflows/execute`, {
+        workflow_id: workflowId,
+        target: target,
+        session_id: sessionId
+      });
+
+      // Display results
+      for (const result of response.data.results) {
+        setTerminalOutput(prev => prev + `\n[+] ${result.tool.toUpperCase()}:\n${result.output}\n`);
+      }
+      
+      setTerminalOutput(prev => prev + `\n${"=".repeat(60)}\n[+] WORKFLOW COMPLETE: ${response.data.tools_executed} tools executed\n${"=".repeat(60)}\n`);
+      toast.success(`Workflow complete: ${response.data.tools_executed} tools executed`);
+    } catch (e) {
+      setTerminalOutput(prev => prev + `\n[-] Workflow execution failed\n`);
+      toast.error("Workflow execution failed");
+    }
+  };
+
   // File operations
   const readFile = async (path) => {
     try {
