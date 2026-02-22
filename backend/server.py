@@ -537,13 +537,396 @@ GPS Longitude                   : {random.uniform(-120, -70):.6f} W
 Camera Model                    : iPhone 14 Pro
 Create Date                     : 2024:01:15 14:30:22
 """,
+
+        # Post-Exploitation Tools
+        "bloodhound": f"""
+[*] Initializing BloodHound.py
+[*] Connecting to {params.get('target', 'dc01.corp.local')}
+[*] Collecting data from Active Directory
+[*] Found {random.randint(50, 200)} users
+[*] Found {random.randint(20, 50)} groups
+[*] Found {random.randint(10, 30)} computers
+[*] Found {random.randint(5, 15)} GPOs
+[*] Found {random.randint(100, 500)} sessions
+[*] Found {random.randint(50, 200)} ACLs
+[+] Data collection complete
+[+] Exported {random.randint(4, 8)} JSON files for BloodHound import
+[!] High Value Targets Found:
+    - Domain Admins: {random.randint(2, 5)} members
+    - Enterprise Admins: {random.randint(1, 3)} members
+    - Kerberoastable accounts: {random.randint(3, 10)}
+    - AS-REP roastable: {random.randint(1, 5)}
+[!] Attack Paths to Domain Admin: {random.randint(2, 8)} found
+""",
+
+        "mimikatz": f"""
+  .#####.   mimikatz 2.2.0 (x64) #19041
+ .## ^ ##.  "A La Vie, A L'Amour" - (oe.eo)
+ ## / \\ ##  /*** Benjamin DELPY `gentilkiwi`
+ ## \\ / ##       > https://blog.gentilkiwi.com/mimikatz
+ '## v ##'       Vincent LE TOUX
+  '#####'        > https://pingcastle.com
+
+mimikatz # sekurlsa::logonpasswords
+
+Authentication Id : 0 ; {random.randint(100000, 999999)}
+Session           : Interactive from 1
+User Name         : Administrator
+Domain            : CORP
+Logon Server      : DC01
+Logon Time        : {datetime.now().strftime('%m/%d/%Y %H:%M:%S')}
+SID               : S-1-5-21-{random.randint(1000000000, 9999999999)}-{random.randint(1000000000, 9999999999)}-{random.randint(1000, 9999)}-500
+        msv :
+         [00000003] Primary
+         * Username : Administrator
+         * Domain   : CORP
+         * NTLM     : {uuid.uuid4().hex}
+         * SHA1     : {uuid.uuid4().hex[:40]}
+        tspkg :
+        wdigest :
+         * Username : Administrator
+         * Domain   : CORP
+         * Password : P@ssw0rd123!
+        kerberos :
+         * Username : Administrator
+         * Domain   : CORP.LOCAL
+         * Password : P@ssw0rd123!
+""",
+
+        "crackmapexec": f"""
+CME          {params.get('target', '192.168.1.0/24')}:445 {' '*20} [*] Windows Server 2019 Build 17763 x64
+CME          {params.get('target', '192.168.1.0/24')}:445 DC01                    [+] CORP\\administrator:P@ssw0rd (Pwn3d!)
+CME          {params.get('target', '192.168.1.0/24')}:445 WS01                    [+] CORP\\administrator:P@ssw0rd (Pwn3d!)
+CME          {params.get('target', '192.168.1.0/24')}:445 WS02                    [+] CORP\\administrator:P@ssw0rd
+CME          {params.get('target', '192.168.1.0/24')}:445 SRV01                   [+] CORP\\administrator:P@ssw0rd (Pwn3d!)
+[+] {random.randint(3, 8)} hosts pwned, {random.randint(1, 3)} hosts with admin access
+[*] Dumping SAM hashes:
+Administrator:500:{uuid.uuid4().hex[:32]}:{uuid.uuid4().hex}:::
+Guest:501:{uuid.uuid4().hex[:32]}:{uuid.uuid4().hex}:::
+[*] Dumping LSA secrets:
+DPAPI_SYSTEM: {uuid.uuid4().hex}
+NL$KM: {uuid.uuid4().hex}
+""",
+
+        "linpeas": f"""
+                     ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+             ▄▄▄▄▄▄▄             ▄▄▄▄▄▄▄▄
+      ▄▄▄▄▄▄▄      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄
+  ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+       LinPEAS v3.1.2 - Linux Privilege Escalation
+
+[+] Current User: www-data
+[+] Hostname: {params.get('target', 'webserver01')}
+[+] Kernel: Linux 5.4.0-{random.randint(50, 150)}-generic
+
+════════════════════════════════════╣ CVEs Check ╠════════════════════════════════════
+[!] CVE-2021-4034 - PwnKit - VULNERABLE!
+[!] CVE-2022-0847 - DirtyPipe - VULNERABLE!
+[!] CVE-2021-3156 - Sudo Baron Samedit - Checking...
+
+════════════════════════════════════╣ SUID ╠════════════════════════════════════
+[!] /usr/bin/pkexec (CVE-2021-4034)
+[!] /usr/bin/sudo
+[!] /usr/bin/find (GTFOBins)
+[!] /usr/bin/vim.basic (GTFOBins)
+
+════════════════════════════════════╣ Credentials ╠════════════════════════════════════
+[+] /etc/passwd readable
+[+] /etc/shadow readable by group shadow
+[!] Found credentials in config files:
+    /var/www/html/config.php: DB_PASS = 'mysql_p@ss123'
+    /home/admin/.bash_history: mysql -u root -pRootP@ssw0rd
+
+════════════════════════════════════╣ Interesting Files ╠════════════════════════════════════
+[+] SSH keys found in /home/admin/.ssh/
+[+] Backup files: /var/backups/shadow.bak
+""",
+
+        "winpeas": f"""
+    \\                   \\
+     \\                   \\       WinPEAS v2.0
+      \\                   \\
+       \\                   \\     Windows Privilege Escalation
+
+[+] Current User: {params.get('target', 'CORP')}\\svc_web
+[+] Hostname: WS01
+[+] OS: Windows Server 2019 Build 17763
+
+════════════════════════════════════╣ System Info ╠════════════════════════════════════
+[!] Hotfixes installed: {random.randint(20, 50)}
+[!] Missing patches: KB5005565, KB5004237
+
+════════════════════════════════════╣ User Info ╠════════════════════════════════════
+[+] Current user privileges:
+    SeImpersonatePrivilege: ENABLED (Potato attacks possible!)
+    SeAssignPrimaryTokenPrivilege: ENABLED
+
+════════════════════════════════════╣ Services ╠════════════════════════════════════
+[!] Modifiable service found: VulnService
+    Path: C:\\Program Files\\Vuln App\\service.exe
+    StartName: LocalSystem
+[!] Unquoted service path: C:\\Program Files\\App Name\\service.exe
+
+════════════════════════════════════╣ Credentials ╠════════════════════════════════════
+[+] Cached credentials found in Credential Manager
+[+] DPAPI masterkeys found
+[!] Autologon credentials:
+    DefaultUserName: Administrator
+    DefaultPassword: Admin123!
+""",
+
+        # Exfiltration Tools
+        "dnscat2": f"""
+[+] Starting DNScat2 server...
+[+] DNS tunnel established
+[+] Listening on 0.0.0.0:53
+[+] Session 1 created
+[+] Client connected from {params.get('target', '192.168.1.50')}
+
+dnscat2> session -i 1
+[+] Interacting with session 1
+
+dnscat2 (session 1)> download /etc/passwd
+[+] Downloading /etc/passwd (2.3 KB)
+[+] Download complete: {random.randint(80, 95)}% packet success rate
+[+] File saved to ./downloads/passwd
+
+dnscat2 (session 1)> download /etc/shadow  
+[+] Downloading /etc/shadow (1.8 KB)
+[+] Download complete: {random.randint(75, 90)}% packet success rate
+[+] File saved to ./downloads/shadow
+
+[*] Total data exfiltrated: {random.randint(50, 200)} KB via {random.randint(500, 2000)} DNS queries
+""",
+
+        "chisel": f"""
+[+] Chisel server started on 0.0.0.0:{params.get('port', '8080')}
+[+] Fingerprint: {uuid.uuid4().hex[:16]}
+
+[client] Connecting to ws://{params.get('target', '10.10.10.10')}:{params.get('port', '8080')}
+[client] Connected
+[client] Tunnels:
+    R:1080 => socks
+
+[+] SOCKS5 proxy established on 127.0.0.1:1080
+[+] Ready for traffic forwarding
+
+[*] Connection stats:
+    - Bytes sent: {random.randint(10000, 100000)}
+    - Bytes received: {random.randint(50000, 500000)}
+    - Active connections: {random.randint(1, 10)}
+""",
+
+        "cloakify": f"""
+[+] Cloakify - Data Exfiltration via Text-Based Steganography
+[+] Loading cipher: pokemonGPokemon names cipher
+
+[*] Source file: sensitive_data.zip ({random.randint(100, 500)} KB)
+[*] Encoding data into harmless-looking text...
+
+[+] Sample encoded output:
+Pikachu Charizard Bulbasaur Squirtle Jigglypuff
+Mewtwo Eevee Snorlax Dragonite Gengar
+Alakazam Machamp Gyarados Lapras Vaporeon
+...
+
+[+] Encoded file saved: exfil_data.txt
+[+] Original size: {random.randint(100, 500)} KB
+[+] Encoded size: {random.randint(300, 1500)} KB
+[+] Can be transmitted via: Email, Chat, Pastebin, Social Media
+
+[*] To decode: python3 decloakify.py exfil_data.txt pokemonG
+""",
+
+        "impacket": f"""
+Impacket v0.11.0 - Copyright 2023 Fortra
+
+[*] Target: {params.get('target', '192.168.1.10')}
+[*] Using credentials: CORP/administrator
+
+[*] Dumping Domain Controller secrets via DCSync
+[*] DRSUAPI session key: {uuid.uuid4().hex}
+
+[*] Dumping Domain Credentials (NTDS.DIT)
+[*] Using the DRSUAPI method to get NTDS.DIT secrets
+
+Administrator:500:{uuid.uuid4().hex[:32]}:{uuid.uuid4().hex}:::
+krbtgt:502:{uuid.uuid4().hex[:32]}:{uuid.uuid4().hex}:::
+svc_sql:1103:{uuid.uuid4().hex[:32]}:{uuid.uuid4().hex}:::
+backup_admin:1104:{uuid.uuid4().hex[:32]}:{uuid.uuid4().hex}:::
+
+[+] Dumped {random.randint(50, 200)} domain accounts
+[+] Found {random.randint(5, 15)} service accounts
+[+] Kerberos keys extracted for {random.randint(10, 30)} accounts
+""",
+
+        "rubeus": f"""
+   ______        _
+  (_____ \\      | |
+   _____) )_   _| |__  _____ _   _  ___
+  |  __  /| | | |  _ \\| ___ | | | |/___)
+  | |  \\ \\| |_| | |_) ) ____| |_| |___ |
+  |_|   |_|____/|____/|_____)____/(___/
+
+  v2.2.3
+
+[*] Action: Kerberoasting
+
+[*] Target Domain          : CORP.LOCAL
+[*] Searching for accounts with SPNs...
+
+[*] Found {random.randint(5, 15)} kerberoastable accounts!
+
+ServicePrincipalName              : MSSQLSvc/sql01.corp.local:1433
+UserName                          : svc_sql
+DistinguishedName                 : CN=svc_sql,CN=Users,DC=corp,DC=local
+Hash                              : $krb5tgs$23$*svc_sql$CORP.LOCAL$MSSQLSvc/sql01*${uuid.uuid4().hex}
+
+ServicePrincipalName              : HTTP/web01.corp.local
+UserName                          : svc_web
+Hash                              : $krb5tgs$23$*svc_web$CORP.LOCAL$HTTP/web01*${uuid.uuid4().hex}
+
+[+] Hashes saved to kerberoast_hashes.txt
+[*] Use hashcat -m 13100 to crack
+""",
+
+        "responder": f"""
+                                         __
+  .----.-----.-----.-----.-----.-----.--|  |.-----.----.
+  |   _|  -__|__ --|  _  |  _  |     |  _  ||  -__|   _|
+  |__| |_____|_____|   __|_____|__|__|_____||_____|__|
+                   |__|
+
+           NBT-NS, LLMNR & MDNS Responder 3.1.3.0
+
+[+] Listening on {params.get('interface', 'eth0')}...
+[+] Poisoning enabled for: LLMNR, NBT-NS, MDNS
+
+[*] [LLMNR]  Poisoned answer sent to 192.168.1.{random.randint(50, 200)}
+[*] [NBT-NS] Poisoned answer sent to 192.168.1.{random.randint(50, 200)}
+
+[+] NTLMv2 Hash captured!
+User: CORP\\jsmith
+Hash: jsmith::CORP:{uuid.uuid4().hex}:{uuid.uuid4().hex}:{uuid.uuid4().hex}
+
+[+] NTLMv2 Hash captured!
+User: CORP\\admin
+Hash: admin::CORP:{uuid.uuid4().hex}:{uuid.uuid4().hex}:{uuid.uuid4().hex}
+
+[*] {random.randint(5, 20)} hashes captured and saved to Responder-Session.log
+""",
+
+        "evil-winrm": f"""
+Evil-WinRM shell v3.5
+
+Info: Establishing connection to remote endpoint
+
+*Evil-WinRM* PS C:\\Users\\Administrator\\Documents> whoami
+corp\\administrator
+
+*Evil-WinRM* PS C:\\Users\\Administrator\\Documents> hostname
+DC01
+
+*Evil-WinRM* PS C:\\Users\\Administrator\\Documents> ipconfig
+
+Windows IP Configuration
+
+Ethernet adapter Ethernet0:
+   IPv4 Address. . . . . . . . . . . : {params.get('target', '192.168.1.10')}
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 192.168.1.1
+
+*Evil-WinRM* PS C:\\Users\\Administrator\\Documents> net user /domain
+User accounts for \\\\DC01
+-------------------------------------------------------------------------------
+Administrator            Guest                    krbtgt
+svc_sql                  svc_web                  jsmith
+admin                    backup_admin
+The command completed successfully.
+""",
+
+        "ligolo": f"""
+ligolo-ng v0.4.4 - Advanced Tunneling/Pivoting Tool
+
+[+] Listening on 0.0.0.0:11601
+[+] Waiting for agents...
+
+INFO[0005] Agent joined: agent_{random.randint(1000, 9999)}@{params.get('target', '192.168.1.50')}
+[Agent: agent_{random.randint(1000, 9999)}] » ifconfig
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Interface 0                                                                  │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Name    : eth0                                                               │
+│ IP      : 10.10.10.{random.randint(50, 200)}/24                              │
+│ Gateway : 10.10.10.1                                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Interface 1                                                                  │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Name    : eth1                                                               │
+│ IP      : 172.16.1.{random.randint(50, 200)}/24 (INTERNAL NETWORK!)          │
+│ Gateway : 172.16.1.1                                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[Agent] » tunnel_start
+[+] Tunnel started, you can now access 172.16.1.0/24 network!
+""",
+
+        "lazagne": f"""
+|====================================================================|
+|                                                                    |
+|                        The LaZagne Project                         |
+|                                                                    |
+|                          ! BANG BANG !                             |
+|                                                                    |
+|====================================================================|
+
+[+] System: {params.get('target', 'Windows 10')}
+
+------------------- Browsers ------------------
+
+[+] Chrome
+URL: https://mail.corp.local
+Username: admin@corp.local
+Password: MailP@ss123!
+
+[+] Firefox
+URL: https://vpn.corp.local  
+Username: jsmith
+Password: VPN_Access_2024
+
+------------------- Sysadmin ------------------
+
+[+] WinSCP
+Host: 192.168.1.20
+Username: backup_user
+Password: B@ckup_P@ss!
+
+[+] FileZilla
+Host: ftp.corp.local
+Username: ftpuser
+Password: FTP_upload_123
+
+------------------- Database ------------------
+
+[+] SQLDeveloper
+Host: 192.168.1.30:1521
+Username: sys
+Password: Oracle_SYS_123
+
+[+] {random.randint(10, 25)} passwords found and saved to credentials.txt
+""",
     }
     
     # Default output for tools without specific simulation
     default_output = f"""[*] Executing {tool_name}...
+[*] Target: {params.get('target', 'Not specified')}
 [*] Parameters: {json.dumps(params, indent=2)}
 [+] Tool execution completed successfully
-[*] Analysis complete - check results above"""
+[*] Analysis complete - review output above
+[*] Execution timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
     
     output = tool_outputs.get(tool_name, default_output)
     execution_time = time.time() - start_time + random.uniform(0.5, 2.0)
