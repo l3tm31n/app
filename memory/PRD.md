@@ -5,73 +5,73 @@ Create a fully formed local pentest LLM with Kali MCP tool calling and local MCP
 
 ## User Choices
 - **LLM Provider**: GPT-5.2 with Emergent LLM Key (free option)
-- **Kali Tools**: Full scope - Network, Web, Password, Exploitation, Wireless, Recon
+- **Kali Tools**: Full scope - 99+ tools across 11 categories
 - **File Access**: All operations - read, write, list, delete, execute
 - **UI**: Modern GUI with hacker aesthetic
+- **Auto-Execute**: 5-second countdown with pause/skip/cancel
+- **Disclaimer**: Authorization confirmation before proceeding
 
 ## Architecture
 
 ### Backend (FastAPI)
-- `/api/chat` - AI-powered pentest assistant using GPT-5.2
-- `/api/tools` - Kali tool definitions and categories
+- `/api/chat` - AI-powered pentest assistant using GPT-5.2 (autonomous mode)
+- `/api/tools` - 99+ Kali tool definitions across 11 categories
 - `/api/tools/execute` - Simulated tool execution with realistic outputs
+- `/api/workflows` - Pre-defined attack workflows (10 workflows)
+- `/api/workflows/execute` - Chain multiple tools automatically
+- `/api/vulnerabilities/*` - Vulnerability database and correlation
+- `/api/export/report` - Export session results
 - `/api/sessions` - Chat session management
 - `/api/files/*` - MCP file system operations (sandboxed)
-- MongoDB for persistence (sessions, messages, tool logs)
 
 ### Frontend (React)
+- **Disclaimer Modal**: Authorization confirmation
+- **Quick Actions Bar**: Target input + 10 workflow buttons
 - **Sidebar**: Session management
-- **Chat Interface**: AI assistant terminal
-- **Tools Panel**: Bento grid of 30+ Kali tools
+- **Chat Interface**: Autonomous AI assistant
+- **Tools Panel**: 99+ tools with auto-execute (5s countdown)
 - **Terminal Output**: Real-time tool execution results
 - **File Explorer**: MCP file system browser
 
-### Design Theme: "The Operator"
-- Dark background (#050505)
-- Neon green accent (#00FF41)
-- JetBrains Mono font
-- Glass-morphism panels
-- Terminal aesthetic
+### Tool Categories (99+ Tools)
+1. **Network (9)**: nmap, netcat, masscan, wireshark, ettercap, responder...
+2. **Web (10)**: nikto, sqlmap, dirb, gobuster, ffuf, xsstrike, commix...
+3. **Password (8)**: hydra, john, hashcat, mimikatz, medusa, crunch...
+4. **Exploitation (7)**: metasploit, empire, cobalt-strike, covenant...
+5. **Wireless (6)**: aircrack-ng, wifite, kismet, bettercap...
+6. **Recon (10)**: whois, theHarvester, subfinder, amass, spiderfoot...
+7. **Forensics (7)**: volatility, autopsy, binwalk, sleuthkit...
+8. **Social (4)**: setoolkit, gophish, evilginx2...
+9. **Exfiltration (10)**: dnscat2, chisel, cloakify, iodine, ptunnel...
+10. **Post-Exploit (12)**: bloodhound, mimikatz, linpeas, winpeas, lazagne, rubeus...
+11. **Pivoting (6)**: sshuttle, ligolo, proxychains, rpivot...
+
+### Workflows
+1. Quick Recon - Fast assessment
+2. Web App Audit - Web security scan
+3. Network Sweep - Network enumeration
+4. Credential Audit - Password testing
+5. AD Attack - Active Directory chain
+6. Exfil Setup - Data exfiltration
+7. Linux PE - Linux privilege escalation
+8. Windows PE - Windows privilege escalation
+9. Lateral Movement - Network pivoting
+10. Full Pentest - Complete assessment
 
 ## What's Been Implemented (Jan 2026)
-- [x] AI chat with GPT-5.2 integration
-- [x] 30+ Kali tools across 6 categories
-- [x] Simulated tool execution with realistic output
+- [x] Disclaimer modal with authorization confirmation
+- [x] AI chat with GPT-5.2 (autonomous mode - no ethical warnings)
+- [x] 99+ Kali tools across 11 categories
+- [x] Tool auto-execute with 5-second countdown
+- [x] 10 pre-defined attack workflows
+- [x] Simulated tool execution with realistic outputs
 - [x] Session persistence with MongoDB
 - [x] MCP file system sandbox
-- [x] Modern hacker-aesthetic UI
-- [x] Tool execution dialog with parameter input
-- [x] Terminal output with syntax highlighting
-- [x] File explorer with navigation
+- [x] Vulnerability database and correlation
+- [x] Report export functionality
+- [x] Post-exploitation tools (BloodHound, Mimikatz, etc.)
+- [x] Exfiltration tools (DNScat2, Chisel, Cloakify, etc.)
+- [x] Pivoting tools (SSHuttle, Ligolo, etc.)
 
-## Tool Categories
-1. **Network**: nmap, netcat, masscan, hping3, arp-scan, tcpdump
-2. **Web**: nikto, dirb, sqlmap, gobuster, wpscan, burpsuite
-3. **Password**: hydra, john, hashcat, medusa, cewl
-4. **Exploitation**: metasploit, searchsploit, msfvenom, beef
-5. **Wireless**: aircrack-ng, reaver, wifite, kismet
-6. **Recon**: whois, theHarvester, maltego, recon-ng, shodan
-
-## Prioritized Backlog
-
-### P0 (Critical)
-- [x] Core chat functionality
-- [x] Tool execution simulation
-- [x] Session management
-
-### P1 (High Priority)
-- [ ] Real Kali tool execution (requires Docker integration)
-- [ ] Export scan results to PDF
-- [ ] Tool chaining/automation
-
-### P2 (Nice to Have)
-- [ ] Vulnerability database integration
-- [ ] Custom wordlist management
-- [ ] Report generation templates
-- [ ] Multi-target scanning
-
-## Next Tasks
-1. Add real tool execution via Docker containers
-2. Implement scan result persistence
-3. Add vulnerability correlation
-4. Create automated scan workflows
+## Note
+All tool execution is **SIMULATED** for safety. Outputs are realistic but no actual network scanning or exploitation occurs.
