@@ -116,14 +116,21 @@ function Dashboard() {
 
   // Send message
   const sendMessage = async (message) => {
-    if (!currentSession) {
-      await createSession();
-    }
-
-    const sessionId = currentSession?.id || sessions[0]?.id;
+    let sessionId = currentSession?.id;
+    
+    // Create session if none exists
     if (!sessionId) {
-      toast.error("No active session");
-      return;
+      try {
+        const response = await axios.post(`${API}/sessions?name=${encodeURIComponent("New Session")}`);
+        const newSession = response.data;
+        setSessions(prev => [newSession, ...prev]);
+        setCurrentSession(newSession);
+        sessionId = newSession.id;
+        toast.success("New session created");
+      } catch (e) {
+        toast.error("Failed to create session");
+        return;
+      }
     }
 
     setIsLoading(true);
