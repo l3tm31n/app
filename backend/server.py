@@ -300,9 +300,9 @@ DNSSEC: unsigned""",
         "theHarvester": f"""*******************************************************************
 *  _   _                                            _             *
 * | |_| |__   ___    /\  /\__ _ _ ____   _____  ___| |_ ___ _ __  *
-* | __| '_ \ / _ \  / /_/ / _` | '__\ \ / / _ \/ __| __/ _ \ '__| *
-* | |_| | | |  __/ / __  / (_| | |   \ V /  __/\__ \ ||  __/ |    *
-*  \__|_| |_|\___| \/ /_/ \__,_|_|    \_/ \___||___/\__\___|_|    *
+* | __| '_ \\ / _ \\  / /_/ / _` | '__\\ \\ / / _ \\/ __| __/ _ \\ '__| *
+* | |_| | | |  __/ / __  / (_| | |   \\ V /  __/\\__ \\ ||  __/ |    *
+*  \\__|_| |_|\\___| \\/ /_/ \\__,_|_|    \\_/ \\___||___/\\__\\___|_|    *
 *                                                                 *
 * theHarvester 4.4.0                                              *
 *******************************************************************
@@ -321,6 +321,137 @@ support@{params.get('target', 'example.com')}
 mail.{params.get('target', 'example.com')}
 www.{params.get('target', 'example.com')}
 api.{params.get('target', 'example.com')}""",
+
+        "gobuster": f"""===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://{params.get('target', '192.168.1.1')}
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/wordlists/dirb/common.txt
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/admin                (Status: 301) [Size: 315]
+/api                  (Status: 301) [Size: 311]
+/backup               (Status: 403) [Size: 277]
+/config               (Status: 403) [Size: 277]
+/css                  (Status: 301) [Size: 311]
+/images               (Status: 301) [Size: 315]
+/js                   (Status: 301) [Size: 310]
+/login                (Status: 200) [Size: 2341]
+/uploads              (Status: 301) [Size: 316]
+===============================================================
+Finished
+===============================================================""",
+
+        "masscan": f"""Starting masscan 1.3.2 (http://bit.ly/14GZzcT)
+Initiating SYN Stealth Scan
+Scanning {params.get('target', '192.168.1.0/24')} [{random.randint(1000, 5000)} ports]
+Discovered open port 22/tcp on {params.get('target', '192.168.1.1')}
+Discovered open port 80/tcp on {params.get('target', '192.168.1.1')}
+Discovered open port 443/tcp on {params.get('target', '192.168.1.1')}
+Discovered open port 3306/tcp on {params.get('target', '192.168.1.1')}
+Discovered open port 8080/tcp on 192.168.1.{random.randint(2, 254)}
+Discovered open port 22/tcp on 192.168.1.{random.randint(2, 254)}
+rate:  {random.uniform(1000, 5000):.2f}-kpps, {random.uniform(90, 99):.2f}% done
+""",
+
+        "hashcat": f"""hashcat (v6.2.6) starting
+* Device #1: NVIDIA GeForce RTX 3080, 9728/10240 MB
+Hashes: {random.randint(1, 5)} digests; {random.randint(1, 5)} unique digests
+Bitmaps: 16 bits, 65536 entries, 0x0000ffff mask
+Rules: 1
+Dictionary cache hit:
+* Filename: /usr/share/wordlists/rockyou.txt
+* Passwords.: 14344385
+* Bytes.....: 139921507
+
+{params.get('hash', '5f4dcc3b5aa765d61d8327deb882cf99')}:password123
+
+Session..........: hashcat
+Status...........: Cracked
+Hash.Mode........: 0 (MD5)
+Speed.#1.........:  {random.randint(5000, 15000)} MH/s
+Recovered........: 1/1 (100.00%)
+Progress.........: {random.randint(100000, 500000)}/{random.randint(1000000, 5000000)}
+""",
+
+        "metasploit": f"""
+       =[ metasploit v6.3.44-dev                          ]
++ -- --=[ {random.randint(2300, 2400)} exploits - {random.randint(1200, 1300)} auxiliary - {random.randint(400, 450)} post       ]
++ -- --=[ {random.randint(1000, 1100)} payloads - {random.randint(45, 50)} encoders - {random.randint(10, 15)} nops            ]
++ -- --=[ {random.randint(9, 12)} evasion                                         ]
+
+msf6 > use exploit/multi/handler
+msf6 exploit(multi/handler) > set PAYLOAD windows/meterpreter/reverse_tcp
+PAYLOAD => windows/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > set LHOST {params.get('lhost', '192.168.1.100')}
+LHOST => {params.get('lhost', '192.168.1.100')}
+msf6 exploit(multi/handler) > set LPORT {params.get('lport', '4444')}
+LPORT => {params.get('lport', '4444')}
+msf6 exploit(multi/handler) > exploit
+
+[*] Started reverse TCP handler on {params.get('lhost', '192.168.1.100')}:{params.get('lport', '4444')}
+[*] Sending stage ({random.randint(175000, 180000)} bytes) to {params.get('target', '192.168.1.1')}
+[*] Meterpreter session 1 opened
+""",
+
+        "subfinder": f"""
+               _     __ _           _
+   ___ _   _| |__ / _(_)_ __   __| | ___ _ __
+  / __| | | | '_ \\ |_| | '_ \\ / _` |/ _ \\ '__|
+  \\__ \\ |_| | |_) |  _| | | | | (_| |  __/ |
+  |___/\\__,_|_.__/|_| |_|_| |_|\\__,_|\\___|_|  v2.6.3
+
+[INF] Enumerating subdomains for {params.get('target', 'example.com')}
+[INF] Found {random.randint(10, 30)} subdomains for {params.get('target', 'example.com')}
+www.{params.get('target', 'example.com')}
+mail.{params.get('target', 'example.com')}
+api.{params.get('target', 'example.com')}
+admin.{params.get('target', 'example.com')}
+dev.{params.get('target', 'example.com')}
+staging.{params.get('target', 'example.com')}
+cdn.{params.get('target', 'example.com')}
+blog.{params.get('target', 'example.com')}
+shop.{params.get('target', 'example.com')}
+""",
+
+        "dnsrecon": f"""
+[*] Performing General Enumeration of Domain: {params.get('target', 'example.com')}
+[-] DNSSEC is not configured for {params.get('target', 'example.com')}
+[*] SOA ns1.{params.get('target', 'example.com')} {random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}
+[*] NS ns1.{params.get('target', 'example.com')} {random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}
+[*] NS ns2.{params.get('target', 'example.com')} {random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}
+[*] MX mail.{params.get('target', 'example.com')} {random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}
+[*] A {params.get('target', 'example.com')} {random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}
+[*] TXT {params.get('target', 'example.com')} v=spf1 include:_spf.google.com ~all
+[+] {random.randint(5, 15)} Records Found
+""",
+
+        "binwalk": f"""
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             ELF, 64-bit LSB executable, AMD x86-64
+{random.randint(1000, 5000)}          0x{random.randint(1000, 5000):X}          gzip compressed data
+{random.randint(10000, 50000)}         0x{random.randint(10000, 50000):X}         Squashfs filesystem, little endian
+{random.randint(100000, 500000)}        0x{random.randint(100000, 500000):X}        JFFS2 filesystem, little endian
+""",
+
+        "exiftool": f"""
+ExifTool Version Number         : 12.65
+File Name                       : {params.get('file', 'image.jpg')}
+File Size                       : {random.randint(100, 5000)} kB
+File Type                       : JPEG
+MIME Type                       : image/jpeg
+Image Width                     : {random.randint(1000, 4000)}
+Image Height                    : {random.randint(1000, 3000)}
+GPS Latitude                    : {random.uniform(30, 50):.6f} N
+GPS Longitude                   : {random.uniform(-120, -70):.6f} W
+Camera Model                    : iPhone 14 Pro
+Create Date                     : 2024:01:15 14:30:22
+""",
     }
     
     # Default output for tools without specific simulation
