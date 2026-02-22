@@ -39,6 +39,9 @@ const categoryIcons = {
   recon: Search,
   forensics: FileSearch,
   social: Users,
+  exfiltration: Zap,
+  postexploit: Bug,
+  pivoting: Network,
 };
 
 const categoryColors = {
@@ -50,30 +53,71 @@ const categoryColors = {
   recon: "#3498DB",
   forensics: "#E91E63",
   social: "#FF9800",
+  exfiltration: "#00BCD4",
+  postexploit: "#8BC34A",
+  pivoting: "#607D8B",
 };
 
 // Smart defaults based on tool type
 const getSmartDefaults = (toolId) => {
   const defaults = {
+    // Network
     nmap: { target: "192.168.1.0/24", port: "1-1000", options: "-sV -sC" },
+    netcat: { target: "192.168.1.1", port: "80", options: "-v" },
+    masscan: { target: "192.168.1.0/24", port: "1-65535", rate: "10000" },
+    responder: { interface: "eth0", options: "-wrf" },
+    ettercap: { target: "192.168.1.0/24", interface: "eth0" },
+    
+    // Web
     nikto: { target: "192.168.1.1", port: "80", options: "-Tuning 123bde" },
     sqlmap: { target: "http://target.com/page?id=1", level: "3", risk: "2" },
+    dirb: { target: "http://192.168.1.1", wordlist: "common.txt" },
+    gobuster: { target: "http://192.168.1.1", wordlist: "common.txt", threads: "50" },
+    wpscan: { target: "http://192.168.1.1", enumerate: "vp,vt,u" },
+    ffuf: { target: "http://192.168.1.1/FUZZ", wordlist: "common.txt" },
+    xsstrike: { target: "http://target.com/search?q=test" },
+    
+    // Password
     hydra: { target: "192.168.1.1", service: "ssh", port: "22", wordlist: "rockyou.txt" },
-    dirb: { target: "http://192.168.1.1", wordlist: "/usr/share/dirb/wordlists/common.txt" },
     john: { hash: "hash.txt", wordlist: "rockyou.txt", format: "auto" },
-    netcat: { target: "192.168.1.1", port: "80", options: "-v" },
+    hashcat: { hash: "hashes.txt", mode: "0", wordlist: "rockyou.txt" },
+    mimikatz: { target: "local", command: "sekurlsa::logonpasswords" },
+    
+    // Exploitation
+    metasploit: { target: "192.168.1.1", lhost: "192.168.1.100", lport: "4444" },
+    searchsploit: { query: "apache 2.4", options: "-w" },
+    msfvenom: { payload: "windows/meterpreter/reverse_tcp", lhost: "192.168.1.100", lport: "4444" },
+    
+    // Recon
     whois: { target: "example.com" },
     theHarvester: { target: "example.com", sources: "google,bing,linkedin" },
-    masscan: { target: "192.168.1.0/24", port: "1-65535", rate: "10000" },
-    gobuster: { target: "http://192.168.1.1", wordlist: "common.txt", threads: "50" },
-    hashcat: { hash: "hashes.txt", mode: "0", wordlist: "rockyou.txt" },
-    metasploit: { target: "192.168.1.1", lhost: "192.168.1.100", lport: "4444" },
     subfinder: { target: "example.com", sources: "all" },
     dnsrecon: { target: "example.com", type: "std" },
-    wpscan: { target: "http://192.168.1.1", enumerate: "vp,vt,u" },
-    aircrack: { interface: "wlan0", bssid: "AA:BB:CC:DD:EE:FF" },
+    amass: { target: "example.com", mode: "enum" },
+    
+    // Forensics
     binwalk: { file: "firmware.bin", extract: "true" },
     exiftool: { file: "image.jpg", all: "true" },
+    volatility: { memory: "memory.dmp", profile: "Win10x64" },
+    
+    // Post-Exploitation
+    bloodhound: { target: "dc01.corp.local", domain: "corp.local" },
+    crackmapexec: { target: "192.168.1.0/24", user: "administrator", password: "P@ssw0rd" },
+    linpeas: { target: "local", output: "/tmp/linpeas.txt" },
+    winpeas: { target: "local", output: "C:\\temp\\winpeas.txt" },
+    lazagne: { target: "all", output: "credentials.txt" },
+    rubeus: { command: "kerberoast", domain: "corp.local" },
+    impacket: { target: "192.168.1.10", domain: "corp.local", user: "administrator" },
+    
+    // Exfiltration
+    dnscat2: { server: "192.168.1.100", domain: "exfil.com" },
+    chisel: { target: "192.168.1.100", port: "8080", mode: "server" },
+    cloakify: { file: "data.zip", cipher: "pokemon" },
+    
+    // Pivoting
+    sshuttle: { target: "192.168.1.50", subnet: "10.10.10.0/24" },
+    ligolo: { target: "192.168.1.50", port: "11601" },
+    proxychains: { config: "/etc/proxychains.conf" },
   };
   return defaults[toolId] || { target: "192.168.1.1" };
 };
